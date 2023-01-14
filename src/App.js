@@ -1,16 +1,13 @@
-import React from 'react';
-import './App.css';
+import { Provider, provider } from 'react-redux';
+import store from './store';
 
 function App() {
   return (
+    <Provider store={ store }>
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-
-      </header>
+      app
     </div>
+    </Provider>
   );
 }
 
