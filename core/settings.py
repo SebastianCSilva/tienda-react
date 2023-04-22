@@ -199,6 +199,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+AUTH_USER_MODEL = "user.UserAccount"
+
 EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 if not DEBUG:
