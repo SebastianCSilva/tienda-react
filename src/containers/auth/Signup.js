@@ -17,11 +17,18 @@
 import Layout from '../../hocs/Layout'
 import { useState, useEffect } from 'react'
 
-function Signup() {
+import { connect } from 'react-redux'
+import { signup } from '../../redux/actions/auth'
+
+function Signup({
+  signup
+}) {
 
   useEffect(() => {
       window.scrollTo(0,0)
   }, [])
+
+  const [accountCreated, setAccountCreated] = useState(false);
 
   const [formData, setFormData] = useState({
       first_name: '',
@@ -43,7 +50,15 @@ function Signup() {
 
   const onSubmit = e =>{
     e.preventDefault();
-    console.log(formData)
+    //console.log(formData)
+    signup(
+      first_name,
+      last_name,
+      email,
+      password,
+      re_password
+    )
+    setAccountCreated(true);
   }
 
   return (
@@ -190,4 +205,11 @@ function Signup() {
     </Layout>
   )
 }
-export default Signup
+
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps, {
+  signup
+}) (Signup)
