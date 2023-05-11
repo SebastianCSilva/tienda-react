@@ -7,6 +7,7 @@ import {
     REMOVE_AUTH_LOADING
 } from './types'
 
+import { setAlert } from './alert';
 import axios from 'axios'
 
 export const signup = (first_name, last_name, email, password, re_password) => async dispatch =>{
@@ -35,10 +36,12 @@ export const signup = (first_name, last_name, email, password, re_password) => a
                 type: SIGNUP_SUCCESS,
                 payload : res.data
             });
+            dispatch(setAlert('Te enviamos un correo, por favor activa tu cuenta. Revisa el correo de spam', 'green'));
         }else {
             dispatch({
                 type: SIGNUP_FAIL,
             });
+            dispatch(setAlert('Error al crear cuenta', 'red'));
         }
         dispatch({
             type: REMOVE_AUTH_LOADING
@@ -50,6 +53,7 @@ export const signup = (first_name, last_name, email, password, re_password) => a
         dispatch({
             type: REMOVE_AUTH_LOADING
         });
+        dispatch(setAlert('Error conectando con el servidor, intenta mas tarde.', 'red'));
     }
 };
 
@@ -76,10 +80,12 @@ export const activate = (uid, token) => async dispatch => {
             dispatch({
                 type: ACTIVATION_SUCCESS
             });
+            dispatch(setAlert('Cuenta activada correctamente', 'green'));
         } else {
             dispatch({
                 type: ACTIVATION_FAIL
             });
+            dispatch(setAlert('Error activando cuenta', 'red'));
         }
         dispatch({
             type: REMOVE_AUTH_LOADING
@@ -91,6 +97,7 @@ export const activate = (uid, token) => async dispatch => {
         dispatch({
             type: REMOVE_AUTH_LOADING
         });
+        dispatch(setAlert('Error al conectar con el servidor, intenta mas tarde.', 'red'));
     }
 
 };
