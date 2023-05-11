@@ -1,6 +1,8 @@
 import {
     SIGNUP_SUCCESS,
     SIGNUP_FAIL,
+    LOGIN_FAIL,
+    LOGIN_SUCCESS,
     ACTIVATION_SUCCESS,
     ACTIVATION_FAIL,
     SET_AUTH_LOADING,
@@ -29,6 +31,15 @@ export default function Auth(state = initialState, action) {
                 ...state,
                 loadging: false
             }
+        case LOGIN_SUCCESS:
+            localStorage.setItem('access', payload.access);
+            localStorage.setItem('refresh', payload.refresh);
+            return {
+                ...state,
+                isAuthenticated: true,
+                access: localStorage.getItem('access'),
+                refresh: localStorage.getItem('refresh'),
+            }
         case ACTIVATION_SUCCESS:
         case ACTIVATION_FAIL:
             return{
@@ -36,6 +47,7 @@ export default function Auth(state = initialState, action) {
             }
         case SIGNUP_SUCCESS:
         case SIGNUP_FAIL:
+        case LOGIN_FAIL:
             localStorage.removeItem('access')
             localStorage.removeItem('refresh')
             return {
