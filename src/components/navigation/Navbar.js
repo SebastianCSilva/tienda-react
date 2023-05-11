@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import Alert from '../../components/alert'
 
 const navigation = [
   { name: 'Tienda', href: '#', current: true },
@@ -14,8 +15,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Navbar() {
+export default function Navbar() {
   return (
+    <>
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
@@ -136,6 +138,7 @@ function Navbar() {
         </>
       )}
     </Disclosure>
+    <Alert/>
+    </>
   )
 }
-export default Navbar
