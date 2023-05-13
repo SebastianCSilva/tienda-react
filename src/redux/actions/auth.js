@@ -3,6 +3,8 @@ import {
     SIGNUP_FAIL,
     LOGIN_FAIL,
     LOGIN_SUCCESS,
+    USER_LOADED_SUCCESS,
+    USER_LOADED_FAIL,
     ACTIVATION_SUCCESS,
     ACTIVATION_FAIL,
     SET_AUTH_LOADING,
@@ -59,6 +61,41 @@ export const signup = (first_name, last_name, email, password, re_password) => a
     }
 };
 
+export const load_user = () => async dispatch => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        };
+
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config)
+
+            if(res.status === 200){
+                dispatch({
+                    type: USER_LOADED_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type: USER_LOADED_FAIL
+                });
+            }
+
+        } catch(err){
+            dispatch({
+                type: USER_LOADED_FAIL
+            });
+        }
+    } else {
+        dispatch({
+            type: USER_LOADED_FAIL
+        });
+    }
+}
+
 export const login = (email, password) => async dispatch => {
     dispatch({
         type: SET_AUTH_LOADING
@@ -83,6 +120,7 @@ export const login = (email, password) => async dispatch => {
                 type: LOGIN_SUCCESS,
                 payload: res.data
             });
+            dispatch(load_user());
             dispatch({
                 type: REMOVE_AUTH_LOADING
             });
