@@ -1,9 +1,11 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router'
 import Alert from '../../components/alert'
 import { connect } from 'react-redux'
+import { logout } from '../../redux/actions/auth'
 
 const navigation = [
   { name: 'Tienda', href: '#', current: true },
@@ -18,8 +20,19 @@ function classNames(...classes) {
 
 function Navbar({
   isAuthenticated,
-  user
+  user,
+  logout
 }) {
+
+  const [redirect, setRedirect] = useState(false);
+
+  const logoutHandler = () => {
+    logout()
+    setRedirect(true);
+  }
+
+  if (redirect)
+    return <Navigate to='/' />;
 
   const authLinks = (
     <Menu as="div" className="relative ml-3">
@@ -62,7 +75,22 @@ function Navbar({
               </Link>
             )}
           </Menu.Item>
-          
+            <form method="POST" action="#">
+              <Menu.Item>
+                {({ active })=> (
+                  <button
+                  onClick={logoutHandler}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left px-4 py-2 text-sm'
+                  )}
+                >
+                  Cerrar sesion
+                </button>
+                )}
+              </Menu.Item>
+            </form>
+
+
         </Menu.Items>
       </Transition>
     </Menu>
@@ -179,5 +207,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-
+  logout
 }) (Navbar)
