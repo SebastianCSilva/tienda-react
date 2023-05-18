@@ -12,7 +12,8 @@ import {
     AUTHENTICATED_SUCCESS,
     AUTHENTICATED_FAIL,
     REFRESH_SUCCESS,
-    REFRESH_FAIL
+    REFRESH_FAIL,
+    LOGOUT
 } from './types'
 
 import { setAlert } from './alert';
@@ -268,4 +269,10 @@ export const refresh = () => async dispatch => {
             });
         }
     }
+}
+
+ export const logout = () => dispatch => {
+    dispatch({
+        type: LOGOUT
+    });
 }
