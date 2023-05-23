@@ -9,6 +9,7 @@ import Signup from './containers/auth/Signup';
 import Login from './containers/auth/Login';
 import Activate from './containers/auth/Activate';
 import ResetPassword from './containers/auth/ResetPassword';
+import ResetPasswordConfirm from './containers/auth/ResetPasswordConfirm';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/activate/:uid/:token" element={<Activate/>}/>
           <Route exact path='/reset_password' element={<ResetPassword/>}/>
+          <Route exact path='/password/reset/confirm/:uid/:token' element={<ResetPasswordConfirm/>} />
 
         </Routes>
       </Router>
