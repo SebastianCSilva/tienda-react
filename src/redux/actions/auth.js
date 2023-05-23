@@ -13,7 +13,11 @@ import {
     AUTHENTICATED_FAIL,
     REFRESH_SUCCESS,
     REFRESH_FAIL,
-    LOGOUT
+    LOGOUT,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_FAIL,
+    RESET_PASSWORD_CONFIRM_SUCCESS,
+    RESET_PASSWORD_CONFIRM_FAIL
 } from './types'
 
 import { setAlert } from './alert';
@@ -271,7 +275,55 @@ export const refresh = () => async dispatch => {
     }
 }
 
- export const logout = () => dispatch => {
+export const reset_password = (email) => async dispatch => {
+    dispatch({
+        type: SET_AUTH_LOADING
+    });
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const body = JSON.stringify({ email });
+
+    try{
+
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`, body, config);
+
+        if(res.status === 204){
+            dispatch({
+                type: RESET_PASSWORD_SUCCESS
+            });
+            dispatch({
+                type: REMOVE_AUTH_LOADING
+            });
+            dispatch(setAlert('Password reset email sent', 'green'));
+        } else {
+            dispatch({
+                type: RESET_PASSWORD_FAIL
+            });
+            dispatch({
+                type: REMOVE_AUTH_LOADING
+            });
+            dispatch(setAlert('Error sending password reset email', 'red'));
+        }
+
+    } catch(err){
+        dispatch({
+            type: RESET_PASSWORD_FAIL
+        });
+        dispatch({
+            type: REMOVE_AUTH_LOADING
+        });
+        dispatch(setAlert('Error sending password reset email', 'red'));
+    }
+
+}
+
+
+export const logout = () => dispatch => {
     dispatch({
         type: LOGOUT
     });
