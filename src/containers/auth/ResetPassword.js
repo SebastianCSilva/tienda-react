@@ -18,8 +18,9 @@ import Layout from '../../hocs/Layout'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { login } from '../../redux/actions/auth'
+import { reset_password } from '../../redux/actions/auth'
 import Loader from 'react-loader-spinner'
+import { Navigate } from 'react-router-dom'
 
 function ResetPassword({
   reset_password,
@@ -29,6 +30,8 @@ function ResetPassword({
   useEffect(() => {
       window.scrollTo(0,0)
   }, [])
+
+  const [requestSent, setRequestSent] = useState(false);
 
   const [formData, setFormData] = useState({
       email: '',
@@ -43,8 +46,12 @@ function ResetPassword({
   const onSubmit = e =>{
     e.preventDefault();
     //console.log(formData)
-    
+    reset_password(email);
+    setRequestSent(true);
   }
+
+  if (requestSent && !loading)
+    return <Navigate to='/' />;
 
   return (
     <Layout>
