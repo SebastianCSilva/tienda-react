@@ -18,13 +18,19 @@ import Layout from '../../hocs/Layout'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { login } from '../../redux/actions/auth'
+import { reset_password_confirm } from '../../redux/actions/auth'
 import Loader from 'react-loader-spinner'
+import { Navigate, useParams } from 'react-router'
+
 
 function ResetPasswordConfirm({
   reset_password_confirm,
   loading
 }) {
+
+  const params = useParams()
+
+  const [requestSent, setRequestSent] = useState(false);
 
   useEffect(() => {
       window.scrollTo(0,0)
@@ -45,8 +51,16 @@ function ResetPasswordConfirm({
   const onSubmit = e =>{
     e.preventDefault();
     //console.log(formData)
-    
+    const uid = params.uid
+    const token = params.token
+
+    reset_password_confirm(uid, token, new_password, re_new_password)
+    if (new_password === re_new_password)
+      setRequestSent(true);
   }
+
+  if (requestSent && !loading)
+    return <Navigate to='/' />;
 
   return (
     <Layout>
@@ -82,7 +96,7 @@ function ResetPasswordConfirm({
                     value={new_password}
                     onChange={e=>onChange(e)}
                     type="password"
-                    placeholder="password"
+                    placeholder="Contraseña"
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -98,7 +112,7 @@ function ResetPasswordConfirm({
                     value={re_new_password}
                     onChange={e=>onChange(e)}
                     type="password"
-                    placeholder="password"
+                    placeholder="Repetir contraseña"
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
