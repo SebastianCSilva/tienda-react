@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { logout } from '../../redux/actions/auth'
 
 const navigation = [
-  { name: 'Tienda', href: '#', current: true },
+  { name: 'Tienda', href: '/shop', current: true },
   { name: 'Eventos', href: '#', current: false },
   { name: 'Team', href: '#', current: false },
   { name: 'Docs', href: '#', current: false },
