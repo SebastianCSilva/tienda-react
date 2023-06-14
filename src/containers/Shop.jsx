@@ -1,8 +1,11 @@
 import Layout from '../hocs/Layout'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
+
+import { connect } from 'react-redux'
+import { get_categories } from '../redux/actions/ategories'
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -60,8 +63,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Shop = () => {
+const Shop = ({
+    get_categories
+}) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+    useEffect(() => {
+        get_categories()
+    }, [])
 
     return(
         <Layout>
@@ -304,4 +313,10 @@ const Shop = () => {
     )
 }
 
-export default Shop
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps,{
+    get_categories,
+}) (Shop)
