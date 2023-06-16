@@ -5,7 +5,7 @@ import { XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
 
 import { connect } from 'react-redux'
-import { get_categories } from '../redux/actions/ategories'
+import { get_categories } from '../redux/actions/categories'
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },

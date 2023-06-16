@@ -3,6 +3,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { check_authenticated, load_user, refresh } from '../redux/actions/auth';
 import Navbar from '../components/navigation/Navbar'
 import Footer from '../components/navigation/Footer'
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+
 
 const Layout = (props) => {
     
