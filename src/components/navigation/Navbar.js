@@ -100,17 +100,18 @@ function Navbar({
     <Fragment>
       <Link
         to="/login"
-        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+        className="text-base font-medium text-gray-500 hover:text-gray-900"
       >
         Iniciar sesion
       </Link>
       <Link
         to="/signup"
-        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+        className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
       >
         Registrar
       </Link>
     </Fragment>
+    
   )
 
   return (
