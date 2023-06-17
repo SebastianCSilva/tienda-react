@@ -65,7 +65,8 @@ function classNames(...classes) {
 }
 
 const Shop = ({
-    get_categories
+    get_categories,
+    categories
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -114,17 +115,30 @@ const Shop = ({
                             </button>
                             </div>
 
-                            {/* Filters */}
+                            {/* MOBILE Filters */}
                             <form className="mt-4 border-t border-gray-200">
                             <h3 className="sr-only">Categories</h3>
                             <ul role="list" className="font-medium text-gray-900 px-2 py-3">
-                                {subCategories.map((category) => (
-                                <li key={category.name}>
-                                    <a href={category.href} className="block px-2 py-3">
-                                    {category.name}
-                                    </a>
-                                </li>
-                                ))}
+                                {
+                                    categories &&
+                                    categories !== null &&
+                                    categories !== undefined &&
+                                    categories.map(category => {
+                                        if (category.sub_categories.length === 0){
+                                            return(
+                                                <div key={category.id} className='flex items-center h-5 my-5'>
+                                                    <input name='category_id'
+                                                    type='radio'
+                                                    className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                                    />
+                                                    <label className='ml-3 min-w-0 flex-1 text-gray-500'>
+                                                        {category.name}
+                                                    </label>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                }
                             </ul>
 
                             {filters.map((section) => (
@@ -315,7 +329,7 @@ const Shop = ({
 }
 
 const mapStateToProps = state => ({
-
+    categories: state.Categories.categories
 })
 
 export default connect(mapStateToProps,{
