@@ -74,3 +74,75 @@ class ListProductsView(APIView):
                 {'error': 'No products to list'},
                 status=status.HTTP_404_NOT_FOUND
             )
+        
+class ListSearchView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, format=None):
+        data = self.request.data
+
+        try:
+            category_id = int(data['category_id'])
+        except:
+            return Response(
+                {'error': 'Category ID must be an integer'},
+                status=status.HTTP_404_NOT_FOUND)
+        
+        search = data['search']
+
+        # Chequear si algo input ocurrio en la busqueda
+        if len(search) == 0:
+            # mostrar todos los productos si no hay input en la busqueda
+            search_results = Product.objects.order_by('-date_created').all()
+        else:
+            # si hay criterio de busqueda filtrar a traves de descripcion tambien con nombre contiene
+            search_results = Product.objects.filter(
+                Q(description__icontains=search) | Q(name__icontains=search)
+            )
+
+        if category_id == 0:
+            search_results = ProductSerializer(search_results, many=True)
+            return Response(
+                {'search_products': search_results.data},
+                status=status.HTTP_200_OK
+            )
+        
+        # Revisar si existe categoria
+        if not Category.objects.filter(id=category_id).exists():
+            return Response(
+                {'error': 'Category not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        category = Category.objects.get(id=category_id)
+
+        # Si la categoria tiene un padre, filtrar por la categoria y no el padre tambien
+        if category.parent:
+            search_results = search_results.order_by(
+                '-date_created'
+            ).filter(category=category)
+
+        else:
+            # Si esta categoria padre no tiene hijos filtrar solo la categoria
+            if not Category.objects.filter(parent=category).exists():
+                search_results = search_results.order_by(
+                '-date_created'
+            ).filter(category=category)
+            else:
+                categories = Category.objects.filter(parent=category)
+                filtered_categories = [category]
+
+                for cat in categories:
+                    filtered_categories.append(cat)
+
+                filtered_categories = tuple(filtered_categories)
+
+                search_results = search_results.order_by(
+                '-date_created'
+                ).filter(category__in=filtered_categories)
+        
+        search_results = ProductSerializer(search_results, many=True)
+        return Response(
+            {'search_products': search_results.data},
+            status=status.HTTP_200_OK
+        )
