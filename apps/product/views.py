@@ -146,3 +146,72 @@ class ListSearchView(APIView):
             {'search_products': search_results.data},
             status=status.HTTP_200_OK
         )
+    
+class ListRelatedView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, productId, format=None):
+        try:
+            product_id = int(productId)
+        except:
+            return Response(
+                {'error': 'Product ID must be an integer'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        # Existe product id
+        if not Product.objects.filter(id=product_id).exists():
+            return Response(
+                {'error': 'Product with this product ID does not exist'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        category = Product.objects.get(id=product_id).category
+
+        if Product.objects.filter(category=category).exists():
+            # Si la categoria tiene padre filtrar solo por la categoria y no del padre tambien
+            if category.parent:
+                related_products = Product.objects.order_by(
+                    '-sold'
+                ).filter(category=category)
+            else:
+                if not Category.objects.filter(parent=category).exists():
+                    related_products = related_products.order_by(
+                        '-sold'
+                    ).filter(category=category)
+
+                else:
+                    categories = Category.objects.filter(parent=category)
+                    filtered_categories = [category]
+
+                    for cat in categories:
+                        filtered_categories.append(cat)
+                    
+                    filtered_categories = tuple(filtered_categories)
+                    related_products = related_products.order_by(
+                        '-sold'
+                    ).filter(category__in=filtered_categories)
+
+            # Excluir producto que estamos viendo
+            related_products = related_products.exclude(id=product_id)
+            related_products = ProductSerializer(related_products, many=True)
+
+            if len(related_products.data) >3:
+                return Response(
+                    {'related_products': related_products.data[:3]},
+                    status=status.HTTP_200_OK
+                )
+            elif len(related_products.data) >0:
+                return Response(
+                    {'related_products': related_products.data},
+                    status=status.HTTP_200_OK
+                )
+            else:
+                return Response(
+                    {'error': 'No related products found'},
+                    status=status.HTTP_200_OK
+                )
+        else:
+            return Response(
+                {'error': 'No related products found'},
+                status=status.HTTP_200_OK
+            )
