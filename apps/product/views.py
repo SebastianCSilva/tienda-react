@@ -175,7 +175,7 @@ class ListRelatedView(APIView):
                 ).filter(category=category)
             else:
                 if not Category.objects.filter(parent=category).exists():
-                    related_products = related_products.order_by(
+                    related_products = Product.objects.order_by(
                         '-sold'
                     ).filter(category=category)
 
@@ -187,7 +187,7 @@ class ListRelatedView(APIView):
                         filtered_categories.append(cat)
                     
                     filtered_categories = tuple(filtered_categories)
-                    related_products = related_products.order_by(
+                    related_products = Product.objects.order_by(
                         '-sold'
                     ).filter(category__in=filtered_categories)
 
