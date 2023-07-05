@@ -43,3 +43,31 @@ export const get_products = () => async dispatch => {
         });
     }
 }
+
+export const get_products_by_arrival = () => async dispatch => {
+    const config = {
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
+
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/product/get-products?sortBy=date_created&order=desc&limit=3`, config);
+
+        if (res.status === 200) {
+            dispatch({
+                type: GET_PRODUCTS_BY_ARRIVAL_SUCCESS,
+                payload: res.data
+            });
+        } else {
+            dispatch({
+                type: GET_PRODUCTS_BY_ARRIVAL_FAIL
+            });
+        }
+
+    }catch(err){
+        dispatch({
+            type: GET_PRODUCTS_BY_ARRIVAL_FAIL
+        });
+    }
+}
