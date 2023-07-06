@@ -127,3 +127,31 @@ export const get_product = (productId) => async dispatch => {
         });
     }
 }
+
+export const get_related_products = (productId) => async dispatch => {
+    const config = {
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
+
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/product/related/${productId}`, config);
+
+        if (res.status === 200) {
+            dispatch({
+                type: RELATED_PRODUCTS_SUCCESS,
+                payload: res.data
+            });
+        } else {
+            dispatch({
+                type: RELATED_PRODUCTS_FAIL
+            });
+        }
+
+    }catch(err){
+        dispatch({
+            type: RELATED_PRODUCTS_FAIL
+        });
+    }
+}
