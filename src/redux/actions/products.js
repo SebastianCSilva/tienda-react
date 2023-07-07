@@ -155,3 +155,40 @@ export const get_related_products = (productId) => async dispatch => {
         });
     }
 }
+
+export const get_filtered_products = (category_id, price_range, sort_by, order) => async dispatch => {
+    const config = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const body = JSON.stringify({
+        category_id,
+        price_range,
+        sort_by,
+        order
+    });
+
+
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/product/by/search`, body, config);
+
+        if (res.status === 200) {
+            dispatch({
+                type: FILTER_PRODUCTS_SUCCESS,
+                payload: res.data
+            });
+        } else {
+            dispatch({
+                type: FILTER_PRODUCTS_FAIL
+            });
+        }
+
+    }catch(err){
+        dispatch({
+            type: FILTER_PRODUCTS_FAIL
+        });
+    }
+}
