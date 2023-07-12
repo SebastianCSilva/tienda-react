@@ -29,7 +29,16 @@ export default function Products(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type){
-
+        case SEARCH_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                search_products: payload.search_products
+            }
+        case SEARCH_PRODUCTS_FAIL:
+            return {
+                ...state,
+                search_products: null
+            }
         default:
             return state
     }
