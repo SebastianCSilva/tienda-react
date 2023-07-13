@@ -29,7 +29,16 @@ export default function Products(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type){
-
+        case RELATED_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                related_products: payload.related_products
+            }
+        case RELATED_PRODUCTS_FAIL:
+            return {
+                ...state,
+                related_products: null
+            }
         case FILTER_PRODUCTS_SUCCESS:
             return {
                 ...state,
