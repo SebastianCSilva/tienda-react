@@ -29,6 +29,17 @@ export default function Products(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type){
+
+        case FILTER_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                filtered_products: payload.filtered_products
+            }
+        case FILTER_PRODUCTS_FAIL:
+            return {
+                ...state,
+                filtered_products: null
+            }
         case SEARCH_PRODUCTS_SUCCESS:
             return {
                 ...state,
