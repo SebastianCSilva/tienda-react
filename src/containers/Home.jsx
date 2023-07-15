@@ -6,6 +6,8 @@ import {
 } from '../redux/actions/products';
 import { useEffect } from "react";
 import Banner from '../components/home/Banner'
+import ProductsArrival from '../components/home/ProductsArrival'
+
 
 const Home = ({
     get_products_by_arrival,
@@ -25,7 +27,7 @@ const Home = ({
         <Layout>
             <div>
                 <Banner/>
-                Product by arrival
+                <ProductsArrival/>
                 Product by sold
             </div>
         </Layout>
