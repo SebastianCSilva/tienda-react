@@ -5,6 +5,7 @@ import {
     get_products_by_sold
 } from '../redux/actions/products';
 import { useEffect } from "react";
+import Banner from '../components/home/Banner'
 
 const Home = ({
     get_products_by_arrival,
@@ -22,7 +23,11 @@ const Home = ({
 
     return(
         <Layout>
-            Home
+            <div>
+                <Banner/>
+                Product by arrival
+                Product by sold
+            </div>
         </Layout>
     )
 }
