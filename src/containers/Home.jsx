@@ -7,7 +7,7 @@ import {
 import { useEffect } from "react";
 import Banner from '../components/home/Banner'
 import ProductsArrival from '../components/home/ProductsArrival'
-
+import ProductsSold from '../components/home/ProductsSold'
 
 const Home = ({
     get_products_by_arrival,
@@ -25,10 +25,10 @@ const Home = ({
 
     return(
         <Layout>
-            <div>
+            <div className="text-blue-500">
                 <Banner/>
-                <ProductsArrival/>
-                Product by sold
+                <ProductsArrival data={products_arrival}/>
+                <ProductsSold data={products_sold}/>
             </div>
         </Layout>
     )
