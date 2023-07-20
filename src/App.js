@@ -12,6 +12,7 @@ import ResetPassword from './containers/auth/ResetPassword';
 import ResetPasswordConfirm from './containers/auth/ResetPasswordConfirm';
 
 import Shop from './containers/Shop';
+import ProductDetail from './containers/pages/productDetail';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
 
           {/* shop */}
           <Route path="/shop" element={<Shop/>}/>
+          {/* shop */}
+          <Route path="/product/:productId" element={<ProductDetail/>}/>
+
         </Routes>
       </Router>
     </Provider>
