@@ -50,7 +50,7 @@ const ImageGallery = () =>{
             {/* Image selector */}
             <div className="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
               <Tab.List className="grid grid-cols-4 gap-6">
-                {product.images.map((image) => (
+                {product && product !== null && product.images.map((image) => (
                   <Tab
                     key={image.id}
                     className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
@@ -76,7 +76,7 @@ const ImageGallery = () =>{
             </div>
 
             <Tab.Panels className="w-full aspect-w-1 aspect-h-1">
-              {product.images.map((image) => (
+              {product && product.images.map((image) => (
                 <Tab.Panel key={image.id}>
                   <img
                     src={image.src}
