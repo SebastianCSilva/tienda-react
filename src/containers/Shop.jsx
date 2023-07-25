@@ -7,6 +7,8 @@ import { MagnifyingGlassIcon, ChevronDownIcon, FunnelIcon, PlusIcon, MinusSmallI
 
 import { connect } from 'react-redux'
 import { get_categories } from '../redux/actions/categories'
+import { get_products } from '../redux/actions/products'
+
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -66,12 +68,15 @@ function classNames(...classes) {
 
 const Shop = ({
     get_categories,
-    categories
+    categories,
+    get_products,
+    products
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
     useEffect(() => {
         get_categories()
+        get_products()
     }, [])
 
     return(
@@ -402,9 +407,11 @@ const Shop = ({
 }
 
 const mapStateToProps = state => ({
-    categories: state.Categories.categories
+    categories: state.Categories.categories,
+    products: state.Products.products
 })
 
 export default connect(mapStateToProps,{
     get_categories,
+    get_products
 }) (Shop)
