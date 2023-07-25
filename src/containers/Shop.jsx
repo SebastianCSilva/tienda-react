@@ -7,7 +7,7 @@ import { MagnifyingGlassIcon, ChevronDownIcon, FunnelIcon, PlusIcon, MinusSmallI
 
 import { connect } from 'react-redux'
 import { get_categories } from '../redux/actions/categories'
-import { get_products } from '../redux/actions/products'
+import { get_products, get_filtered_products } from '../redux/actions/products'
 
 
 const sortOptions = [
@@ -70,7 +70,9 @@ const Shop = ({
     get_categories,
     categories,
     get_products,
-    products
+    products,
+    get_filtered_products,
+    filtered_products
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -408,10 +410,12 @@ const Shop = ({
 
 const mapStateToProps = state => ({
     categories: state.Categories.categories,
-    products: state.Products.products
+    products: state.Products.products,
+    filtered_products: state.Products.filtered_products
 })
 
 export default connect(mapStateToProps,{
     get_categories,
-    get_products
+    get_products,
+    get_filtered_products
 }) (Shop)
