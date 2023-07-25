@@ -73,7 +73,7 @@ const ProductDetail = ({
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
           
-          <ImageGallery data={product && product.photo}/>
+          <ImageGallery photo={product && product.photo}/>
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
@@ -81,15 +81,58 @@ const ProductDetail = ({
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl text-gray-900">{product && product.price}</p>
+              <p className="text-3xl text-gray-900">$ {product && product.price}</p>
             </div>
 
+            <div className="mt-6">
+              <h3 className="sr-only">Description</h3>
+
+              <div
+                className="text-base text-gray-700 space-y-6"
+                dangerouslySetInnerHTML={{ __html: product && product.description }}
+              />
+            </div>
             
-
-     
-
             <form className="mt-6">
-              
+              {/* Colors */}
+              <div>
+                <h3 className="text-sm text-gray-600">Color</h3>
+
+                <div>
+                <fieldset className="mt-2">
+                  <legend className="sr-only">
+                    Choose a color
+                  </legend>
+                  <div className="flex items-center space-x-3">
+                    
+                    <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
+                      <input type="radio" name="color-choice" value="Washed Black" className="sr-only" aria-labelledby="color-choice-0-label"/>
+                      <p id="color-choice-0-label" className="sr-only">
+                        Washed Black
+                      </p>
+                      <span aria-hidden="true" className="h-8 w-8 bg-gray-700 border border-black border-opacity-10 rounded-full"></span>
+                    </label>
+
+                    <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
+                      <input type="radio" name="color-choice" value="White" className="sr-only" aria-labelledby="color-choice-1-label"/>
+                      <p id="color-choice-1-label" className="sr-only">
+                        White
+                      </p>
+                      <span aria-hidden="true" className="h-8 w-8 bg-white border border-black border-opacity-10 rounded-full"></span>
+                    </label>
+
+                    
+                    <label className="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-500">
+                      <input type="radio" name="color-choice" value="Washed Gray" className="sr-only" aria-labelledby="color-choice-2-label"/>
+                      <p id="color-choice-2-label" className="sr-only">
+                        Washed Gray
+                      </p>
+                      <span aria-hidden="true" className="h-8 w-8 bg-gray-500 border border-black border-opacity-10 rounded-full"></span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+              </div>
 
               <div className="mt-10 flex sm:flex-col1">
                 <button
@@ -113,9 +156,9 @@ const ProductDetail = ({
               <h2 id="details-heading" className="sr-only">
                 Additional details
               </h2>
-
-              
             </section>
+
+
           </div>
         </div>
       </div>
