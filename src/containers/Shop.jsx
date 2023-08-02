@@ -1,5 +1,6 @@
 import Layout from '../hocs/Layout'
 import { Fragment, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon, ChevronDownIcon, FunnelIcon, PlusIcon, MinusSmallIcon } from '@heroicons/react/20/solid'
@@ -75,11 +76,79 @@ const Shop = ({
     filtered_products
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [filtered, setFiltered] = useState(false)
+    const [formData, setFormData] = useState({
+        category_id: '0',
+        price_range: 'Any',
+        sortBy: 'created',
+        order: 'desc'
+    })
+
+    const {
+        category_id,
+        price_range,
+        sortBy,
+        order
+    } = formData
 
     useEffect(() => {
         get_categories()
         get_products()
+        window.scrollTo(0,0)
     }, [])
+
+    const onChange = e => setFormData({ ...FormData, [e.target.name]: e.target.value})
+
+    const onSubmit = e => {
+        e.preventDefault()
+        get_filtered_products(category_id, price_range, sortBy, order)
+        setFiltered(true)
+    }
+
+    const showProducts = () => {
+        let results = []
+        let display = []
+
+        if (
+            filtered_products && 
+            filtered_products !== null &&
+            filtered_products !== undefined &&
+            filtered
+        ) {
+            filtered_products.map((product, index) => {
+                return display.push(
+                    <div key={index}>
+                        producto filtrado
+                    </div>
+                );
+            });
+        } else if (
+            !filtered &&
+            products &&
+            products !== null &&
+            products !== undefined
+        ){
+            products.map((product, index) => {
+                return display.push(
+                    <div key={index}>
+                        productos
+                    </div>
+                );
+            });
+        }
+
+        for (let i = 0; i < display.length; i += 3){
+            results.push(
+                <div key={i} className='grid md:grid-cols-3'>
+                    {display[i] ? display[i] : <div className=''></div>}
+                    {display[i+1] ? display[i+1] : <div className=''></div>}
+                    {display[i+2] ? display[i+2] : <div className=''></div>}
+                </div>
+            )
+        }
+
+        return results
+    }
 
     return(
         <Layout>
@@ -397,7 +466,6 @@ const Shop = ({
                         <div className="lg:col-span-3">
                             {/* Replace with your content */}
                             <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" />
-                            {/* /End replace */}
                         </div>
                         </div>
                     </section>
