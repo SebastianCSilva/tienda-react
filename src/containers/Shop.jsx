@@ -9,6 +9,7 @@ import { MagnifyingGlassIcon, ChevronDownIcon, FunnelIcon, PlusIcon, MinusSmallI
 import { connect } from 'react-redux'
 import { get_categories } from '../redux/actions/categories'
 import { get_products, get_filtered_products } from '../redux/actions/products'
+import ProductCard from '../components/product/ProductCard'
 
 
 const sortOptions = [
@@ -118,7 +119,7 @@ const Shop = ({
             filtered_products.map((product, index) => {
                 return display.push(
                     <div key={index}>
-                        producto filtrado
+                        <ProductCard product={product}/>
                     </div>
                 );
             });
@@ -131,7 +132,7 @@ const Shop = ({
             products.map((product, index) => {
                 return display.push(
                     <div key={index}>
-                        productos
+                        <ProductCard product={product}/>
                     </div>
                 );
             });
@@ -465,7 +466,9 @@ const Shop = ({
                         {/* Product grid */}
                         <div className="lg:col-span-3">
                             {/* Replace with your content */}
-                            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" />
+                            
+                            {products && showProducts()}
+
                         </div>
                         </div>
                     </section>
