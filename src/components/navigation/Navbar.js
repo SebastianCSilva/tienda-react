@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { NavLink, Link } from 'react-router-dom'
@@ -6,6 +6,9 @@ import { Navigate } from 'react-router'
 import Alert from '../../components/alert'
 import { connect } from 'react-redux'
 import { logout } from '../../redux/actions/auth'
+import { get_categories } from '../../redux/actions/categories'
+import SearchBox from './SearchBox'
+
 import { SortAscendingIcon, UsersIcon } from '@heroicons/react/solid'
 
 
@@ -23,10 +26,18 @@ function classNames(...classes) {
 function Navbar({
   isAuthenticated,
   user,
-  logout
+  logout,
+  get_categories,
+  categories
 }) {
 
   const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    get_categories()
+
+  }, [])
+  
 
   const logoutHandler = () => {
     logout()
@@ -163,7 +174,7 @@ function Navbar({
                       </NavLink>
                     ))}
 
-
+                        <SearchBox categories={categories}/>
 
                   </div>
                 </div>
@@ -209,9 +220,11 @@ function Navbar({
 
 const mapStateToProps = state => ({
   isAuthenticated: state.Auth.isAuthenticated,
-  user: state.Auth.user
+  user: state.Auth.user,
+  categories: state.Categories.categories
 })
 
 export default connect(mapStateToProps, {
-  logout
+  logout,
+  get_categories
 }) (Navbar)
