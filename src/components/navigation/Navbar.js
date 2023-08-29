@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { Navigate } from 'react-router'
 import Alert from '../../components/alert'
 import { connect } from 'react-redux'
@@ -150,9 +150,9 @@ function Navbar({
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <NavLink
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
@@ -160,29 +160,10 @@ function Navbar({
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </NavLink>
                     ))}
 
-                    <div>
-                      <div className="mt-1 flex rounded-md shadow-sm">
-                        <div className="relative flex items-stretch flex-grow focus-within:z-10">
-                          
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300"
-                            placeholder="John Doe"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                          <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                        </button>
-                      </div>
-                    </div>
+
 
                   </div>
                 </div>
@@ -205,8 +186,8 @@ function Navbar({
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  as="NavLink"
+                  to={item.href}
                   className={classNames(
                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block rounded-md px-3 py-2 text-base font-medium'
