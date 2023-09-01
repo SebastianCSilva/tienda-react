@@ -7,15 +7,10 @@ const SearchBox = ({categories}) =>{
             <div>
                 <div className="mt-1 flex rounded-md shadow-sm border border-gray-200">
 
-                    <div>
+                    <div className='mt-1 mx-1 px-2 py-1'>
                         <select 
-                            style={{
-                                backgroundColor: '#f8f9fa',
-                                borderRadius: '25px'
-                            }}
-
                             name='category_id'
-                            className=''
+                            className='rounded-full'
                         >
                             <option value={0}>All</option>
                             {
