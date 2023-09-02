@@ -7,6 +7,7 @@ import Alert from '../../components/alert'
 import { connect } from 'react-redux'
 import { logout } from '../../redux/actions/auth'
 import { get_categories } from '../../redux/actions/categories'
+import { get_search_products } from '../../redux/actions/products'
 import SearchBox from './SearchBox'
 
 import { SortAscendingIcon, UsersIcon } from '@heroicons/react/solid'
@@ -28,10 +29,35 @@ function Navbar({
   user,
   logout,
   get_categories,
-  categories
+  categories,
+  get_search_products
 }) {
 
   const [redirect, setRedirect] = useState(false);
+
+  const [render, setRender] = useState(false);
+  const [formData, setFormData] = useState({
+    category_id: 0,
+    search: ''
+  });
+  const { category_id, search }= formData;
+
+  useEffect(() => {
+    setSearchRedirect(false);
+  }, [render]);
+
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+    get_search_products(search, category_id);
+    setRender(!render);
+  }
+
+  if(render) {
+    
+  }
+
 
   useEffect(() => {
     get_categories()
@@ -226,5 +252,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   logout,
-  get_categories
+  get_categories,
+  get_search_products
 }) (Navbar)
