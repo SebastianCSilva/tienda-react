@@ -51,12 +51,13 @@ function Navbar({
 
   const onSubmit = e => {
     e.preventDefault();
+
     get_search_products(search, category_id);
     setRender(!render);
   }
 
   if(render){
-    return <Navigate to='/' />;
+    return <Navigate to='/search' />;
   }
 
   const logoutHandler = () => {
@@ -195,10 +196,10 @@ function Navbar({
                     ))}
 
                         <SearchBox 
-                        search={search}
-                        onChange={onChange}
-                        onSubmit={onSubmit}
-                        categories={categories}
+                          search={search}
+                          onChange={onChange}
+                          onSubmit={onSubmit}
+                          categories={categories}
                         />
 
                   </div>
