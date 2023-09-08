@@ -1,4 +1,4 @@
-import Layout from '../../hocs/Layout'
+import Layout from '../hocs/Layout'
 import { Fragment, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -7,12 +7,14 @@ import { MagnifyingGlassIcon, ChevronDownIcon, FunnelIcon, PlusIcon, MinusSmallI
 
 
 import { connect } from 'react-redux'
-import { get_categories } from '../../redux/actions/categories'
-import { get_products, get_filtered_products } from '../../redux/actions/products'
-import ProductCard from '../../components/product/ProductCard'
+import { get_categories } from '../redux/actions/categories'
+import { get_products, get_filtered_products } from '../redux/actions/products'
+import ProductCard from '../components/product/ProductCard'
 import { PlusSmallIcon } from '@heroicons/react/24/outline'
 
-import { prices } from '../../helpers/fixedPrices'
+import { prices } from '../helpers/fixedPrices'
+import Navbar from '../../components/navigation/Navbar'
+import Footer from '../../components/navigation/Footer'
 
 
 const sortOptions = [
@@ -77,7 +79,7 @@ const Search = ({
     get_products,
     products,
     get_filtered_products,
-    filtered_products
+    searched_products
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [filtered, setFiltered] = useState(false)
@@ -114,12 +116,11 @@ const Search = ({
         let display = []
 
         if (
-            filtered_products && 
-            filtered_products !== null &&
-            filtered_products !== undefined &&
-            filtered
+            searched_products && 
+            searched_products !== null &&
+            searched_products !== undefined 
         ) {
-            filtered_products.map((product, index) => {
+            searched_products.map((product, index) => {
                 return display.push(
                     <div key={index}>
                         <ProductCard product={product}/>
@@ -155,7 +156,8 @@ const Search = ({
     }
 
     return(
-        <Layout>
+        <div>
+            <Navbar/>
             <div className="bg-white">
                 <div>
                     {/* Mobile filter dialog */}
@@ -387,7 +389,13 @@ const Search = ({
 
                     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
-                        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Buscaste: </h1>
+                        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Productos  
+                        ({searched_products && 
+                        searched_products !== null &&
+                        searched_products !== undefined &&
+                        searched_products.length
+                        })
+                        </h1>
 
                         <div className="flex items-center">
                         <Menu as="div" className="relative inline-block text-left">
@@ -644,14 +652,15 @@ const Search = ({
                     </main>
                 </div>
             </div>
-        </Layout>
+            <Footer/>
+        </div>
     )
 }
 
 const mapStateToProps = state => ({
     categories: state.Categories.categories,
     products: state.Products.products,
-    filtered_products: state.Products.filtered_products
+    searched_products: state.Products.searched_products
 })
 
 export default connect(mapStateToProps,{
