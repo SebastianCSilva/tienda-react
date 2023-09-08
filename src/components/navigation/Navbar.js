@@ -43,8 +43,9 @@ function Navbar({
   const { category_id, search }= formData;
 
   useEffect(() => {
-    setSearchRedirect(false);
-  }, [render]);
+    get_categories()
+  }, [])
+
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -54,16 +55,9 @@ function Navbar({
     setRender(!render);
   }
 
-  if(render) {
-    
+  if(render){
+    return <Navigate to='/' />;
   }
-
-
-  useEffect(() => {
-    get_categories()
-
-  }, [])
-  
 
   const logoutHandler = () => {
     logout()
@@ -200,7 +194,12 @@ function Navbar({
                       </NavLink>
                     ))}
 
-                        <SearchBox categories={categories}/>
+                        <SearchBox 
+                        search={search}
+                        onChange={onChange}
+                        onSubmit={onSubmit}
+                        categories={categories}
+                        />
 
                   </div>
                 </div>
