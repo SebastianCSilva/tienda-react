@@ -79,7 +79,8 @@ const Search = ({
     get_products,
     products,
     get_filtered_products,
-    searched_products
+    searched_products,
+    filtered_products
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [filtered, setFiltered] = useState(false)
@@ -116,6 +117,19 @@ const Search = ({
         let display = []
 
         if (
+            filtered_products && 
+            filtered_products !== null &&
+            filtered_products !== undefined &&
+            filtered
+        ) {
+            filtered_products.map((product, index) => {
+                return display.push(
+                    <div key={index}>
+                        <ProductCard product={product}/>
+                    </div>
+                );
+            });
+        } else if (
             searched_products && 
             searched_products !== null &&
             searched_products !== undefined 
@@ -660,7 +674,8 @@ const Search = ({
 const mapStateToProps = state => ({
     categories: state.Categories.categories,
     products: state.Products.products,
-    searched_products: state.Products.searched_products
+    searched_products: state.Products.searched_products,
+    filtered_products: state.Products.filtered_products
 })
 
 export default connect(mapStateToProps,{
