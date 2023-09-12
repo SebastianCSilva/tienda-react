@@ -195,12 +195,14 @@ function Navbar({
                       </NavLink>
                     ))}
 
+                        {window.location.pathname==='/search'?<></>:
                         <SearchBox 
-                          search={search}
-                          onChange={onChange}
-                          onSubmit={onSubmit}
-                          categories={categories}
-                        />
+                        search={search}
+                        onChange={onChange}
+                        onSubmit={onSubmit}
+                        categories={categories}/>
+                        }
+                        
 
                   </div>
                 </div>
