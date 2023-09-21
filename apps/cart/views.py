@@ -141,3 +141,22 @@ class GetTotalView(APIView):
                 {'error': 'Something went wrong when retrieving total costs'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+        
+class GetItemTotalView(APIView):
+    def get(self, request, format=None):
+
+        user = self.request.user
+        
+        try:
+            cart = Cart.objects.get(user=user)
+            total_items = cart.total_items
+
+            return Response(
+                {'total_items': total_items},
+                status=status.HTTP_200_OK
+            )
+        except:
+            return Response(
+                {'error': 'Something went wrong when getting total number of items'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
