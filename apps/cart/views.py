@@ -227,3 +227,14 @@ class UpdateItemView(APIView):
                     {'cart': result},
                     status=status.HTTP_200_OK
                 )
+            else:
+                return Response(
+                    {'error': 'Not enough of this item in stock'},
+                    status=status.HTTP_200_OK
+                )
+            
+        except:
+            return Response(
+                {'error': 'Something went wrong when updating cart item'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
