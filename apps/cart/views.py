@@ -160,3 +160,70 @@ class GetItemTotalView(APIView):
                 {'error': 'Something went wrong when getting total number of items'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+        
+class UpdateItemView(APIView):
+    def put(self, request, format=None):
+        user = self.request.user
+        data = self.request.data
+
+        try:
+            product_id = int(data['product_id'])
+        except:
+            return Response(
+                {'error': 'Product ID must be an integer'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        try:
+            count = int(data['count'])
+        except:
+            return Response(
+                {'error': 'Count value must be an integer'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        try:
+            if not Product.objects.filter(id=product_id).exists():
+                return Response(
+                    {'error': 'This product does not exist'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            product = Product.objects.get(id=product_id)
+            cart = Cart.objects.get(user=user)
+
+            if not CartItem.objects.filter(cart=cart, product=product).exists():
+                return Response(
+                    {'error': 'This product is not in your cart'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            quantity = product.quantity
+
+            if count <= quantity:
+                CartItem.objects.filter(
+                    product=product, cart=cart
+                ).update(count=count)
+
+                cart_items = CartItem.objects.order_by(
+                    'product'
+                ).filter(cart=cart)
+
+                result = []
+
+                for cart_item in cart_items:
+                    item = {}
+
+                    item['id'] = cart_item.id
+                    item['count'] = cart_item.count
+                    product = Product.objects.get(id=cart_item.product.id)
+                    product = ProductSerializer(product)
+
+                    item['product'] = product.data
+
+                    result.append(item)
+
+                return Response(
+                    {'cart': result},
+                    status=status.HTTP_200_OK
+                )
