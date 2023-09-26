@@ -302,3 +302,32 @@ class RemoveItemView(APIView):
                 {'error': 'Something went wrong when removing item'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+        
+class EmptyCartView(APIView):
+    def delete(self, request, format=None):
+        user = self.request.user
+
+        try:
+            cart = Cart.objects.get(user=user)
+
+            if not CartItem.objects.filter(cart=cart).exists():
+                return Response(
+                    {'success': 'Cart is already empty'},
+                    status=status.HTTP_200_OK
+                )
+            
+            CartItem.objects.filter(cart=cart).delete()
+
+            # Updata cart to have no items
+            Cart.objects.filter(user=user).update(total_items=0)
+
+            return Response(
+                {'success': 'Cart emptied successfully'},
+                status=status.HTTP_200_OK
+            )
+
+        except:
+            return Response(
+                {'error': 'Something went wrong emptying cart'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
