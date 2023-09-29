@@ -331,3 +331,78 @@ class EmptyCartView(APIView):
                 {'error': 'Something went wrong emptying cart'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+class SynchCartView(APIView):
+    def put(self, request, format=None):
+        user = self.request.user
+        data = self.request.data
+
+        try:
+            cart_items = data['cart_items']
+
+            for cart_item in cart_items:
+                cart = Cart.objects.get(user=user)
+
+                try:
+                    product_id = int(cart_item['product_id'])
+                except:
+                    return Response(
+                        {'error': 'Product ID must be an integer'},
+                        status=status.HTTP_404_NOT_FOUND
+                    )
+                
+                if not Product.objects.filter(id=product_id).exists():
+                    return Response(
+                        {'error': 'Product with this ID does not exist'},
+                        status=status.HTTP_404_NOT_FOUND
+                    )
+                
+                product = Product.objects.get(id=product_id)
+                quantity = product.quantity
+
+                if CartItem.objects.filter(cart=cart, product=product).exists():
+                    # Actualizamos el item del carrito
+                    item = CartItem.objects.get(cart=cart, product=product)
+                    count = item.count
+
+                    try:
+                        cart_item_count = int(cart_item['count'])
+                    except:
+                        cart_item_count = 1
+
+                    # Chequeo con base de datos
+                    if (cart_item_count + int(count)) <= int(quantity):
+                        updated_count = cart_item_count + int(count)
+                        CartItem.objects.filter(
+                            cart=cart, product=product
+                        ).update(count=updated_count)
+
+                else:
+                    # Agregar el item al carrito de usuario
+                    try:
+                        cart_item_count = int(cart_item['count'])
+                    except:
+                        cart_item_count = 1 
+
+                    if cart_item_count <= quantity:
+                        CartItem.objects.create(
+                            product=product, cart=cart, count=cart_item_count
+                        )
+
+                        if CartItem.objects.filter(cart=cart, product=product).exists():
+                            # Sumar item
+                            total_items = int(cart.total_items) + 1
+                            Cart.objects.filter(user=user).update(
+                                total_items=total_items
+                            )
+                            
+                return Response(
+                    {'success': 'Cart Synchronized'},
+                    status=status.HTTP_201_CREATED
+                )
+        
+        except:
+            return Response(
+                {'error': 'Something went wrong when synching cart'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
