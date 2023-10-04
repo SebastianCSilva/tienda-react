@@ -51,7 +51,7 @@ class AddItemView(APIView):
         count = 1
 
         try:
-            if not Product.object.filter(id=product_id).exists():
+            if not Product.objects.filter(id=product_id).exists():
                 return Response(
                     {'error': 'This product does not exist'},
                     status=status.HTTP_404_NOT_FOUND
