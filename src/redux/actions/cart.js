@@ -25,3 +25,70 @@ import {
     SYNCH_CART_FAIL
 } from './types';
 
+export const add_item = product => async dispatch => {
+    if (localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        const product_id = product.id;
+        const body = JSON.stringify({ product_id });
+
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/cart/add-item`, body, config);
+
+            if (res.status === 201){
+                dispatch({
+                    type: ADD_ITEM_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type: ADD_ITEM_FAIL
+                });
+            }
+
+
+        } catch(err){
+            dispatch({
+                type: ADD_ITEM_FAIL
+            });
+        }
+
+
+    } else {
+        let cart = [];
+
+        if(localStorage.getItem('cart')){
+            cart = JSON.parse(localStorage.getItem('cart'));
+        }
+
+        let shouldAddItem = true;
+
+        cart.map(item => {
+            if(product.id.toString() === item.product.id.toString()){
+                shouldAddItem = false;
+            }
+        })
+
+        const order_item = {
+            product: product,
+            count :1
+        };
+
+        if(shouldAddItem){
+            cart.push(order_item);
+        }
+
+        dispatch({
+            type: ADD_ITEM,
+            payload: cart
+        });
+
+    }
+
+}
