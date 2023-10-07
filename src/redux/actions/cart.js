@@ -92,3 +92,39 @@ export const add_item = product => async dispatch => {
     }
 
 }
+
+export const get_items = () => async dispatch => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        try{
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/cart/cart-items`, config);
+
+            if (res.status === 200){
+                dispatch({
+                    type: GET_ITEMS_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type: GET_ITEMS_FAIL
+                });
+            }
+        } catch(err){
+            dispatch({
+                type: GET_ITEMS_FAIL
+            });
+        }
+        
+
+    } else {
+        dispatch({
+            type: GET_ITEMS
+        });
+    }
+}
