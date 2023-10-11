@@ -179,3 +179,48 @@ export const get_total = () => async dispatch => {
 
     }
 }
+
+
+export const get_item_total = () => async dispatch => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Accept': 'application/json',
+                'Authorizarion': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/cart/get-item-total`, config);
+
+            if(res.status === 200){
+                dispatch({
+                    type: GET_ITEM_TOTAL_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type: GET_ITEM_TOTAL_FAIL
+                });
+            }
+
+        } catch(err) {
+            dispatch({
+                type: GET_ITEM_TOTAL_FAIL
+            });
+        }
+
+    } else {
+        let total = 0;
+
+        if(localStorage.getItem('cart')){
+            total = JSON.parse(localStorage.getItem('cart')).length;
+        }
+
+        dispatch({
+            type: GET_ITEM_TOTAL,
+            payload: total
+        });
+
+    }
+}
