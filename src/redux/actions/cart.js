@@ -128,3 +128,54 @@ export const get_items = () => async dispatch => {
         });
     }
 }
+
+export const get_total = () => async dispatch => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Accept': 'application/json',
+                'Authorizarion': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/cart/get-total`, config);
+
+            if(res.status === 200){
+                dispatch({
+                    type: GET_TOTAL_SUCCESS,
+                    payload : res.data
+                });
+            } else {
+                dispatch({
+                    type: GET_TOTAL_FAIL
+                });
+            }
+
+        } catch(err) {
+            dispatch({
+                type: GET_TOTAL_FAIL
+            });
+        }
+    } else {
+        let total = 0.0;
+        let compare_total = 0.0;
+        let cart = [];
+
+        if(localStorage.getItem('cart')){
+            cart = JSON.parse(localStorage.getItem('cart'));
+
+            cart.map(item => {
+                total += parseFloat(item.product.price) * parseFloat(item.count);
+                compare_total += parseFloat(item.product.compare_price) * parseFloat(item.count);
+            });
+
+        }
+
+        dispatch({
+            type: GET_TOTAL,
+            payload: [parseFloat(total.toFixed(2)), parseFloat(compare_total.toFixed(2))]
+        });
+
+    }
+}
