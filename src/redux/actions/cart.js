@@ -224,3 +224,58 @@ export const get_item_total = () => async dispatch => {
 
     }
 }
+
+export const update_item = (item, count) => async dispatch => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorizarion': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        const product_id = item.product.id;
+        const body = JSON.stringify({ product_id, count});
+
+        try {
+            const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/cart/update-item`, body, config);
+
+            if(res.status === 200 && !res.data.error){
+                dispatch({
+                    type: UPDATE_ITEM_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type: UPDATE_ITEM_FAIL
+                });
+            }
+
+        } catch(err) {
+            dispatch({
+                type: UPDATE_ITEM_FAIL
+            });
+        }
+
+    } else {
+        let cart = [];
+
+        if(localStorage.getItem('cart')){
+            cart = JSON.parse(localStorage.getItem('cart'));
+
+            cart.map((cart_item, index) => {
+                if(cart_item.product.id.toString() === item.product.id.toString()){
+                    cart[index].count = parseInt(count);
+                }
+            });
+        }
+
+
+        dispatch({
+            type: UPDATE_ITEM,
+            payload: cart
+        });
+
+    }
+}
