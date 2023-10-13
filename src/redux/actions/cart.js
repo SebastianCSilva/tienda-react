@@ -279,3 +279,62 @@ export const update_item = (item, count) => async dispatch => {
 
     }
 }
+
+export const remove_item = item => async dispatch => {
+    if(localStorage.getItem('access')){
+        const product_id = item.product.id;
+        const body = JSON.stringify({ product_id });
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorizarion': `JWT ${localStorage.getItem('access')}`,
+            },
+            data: body
+        };
+
+        
+
+        try {
+            const res = await axios.delete(`${process.env.REACT_APP_API_URL}/api/cart/remove-item`, config);
+
+            if(res.status === 200){
+                dispatch({
+                    type: REMOVE_ITEM_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type: REMOVE_ITEM_FAIL
+                });
+            }
+
+        } catch(err) {
+            dispatch({
+                type: REMOVE_ITEM_FAIL
+            });
+        }
+
+    } else {
+        let cart = [];
+        let new_cart = [];
+
+        if(localStorage.getItem('cart')){
+            cart = JSON.parse(localStorage.getItem('cart'));
+
+            cart.map(cart_item => {
+                if(cart_item.product.id.toString() !== item.product.id.toString()){
+                    new_cart.push(cart_item);
+                }
+            });
+        }
+
+
+        dispatch({
+            type: REMOVE_ITEM,
+            payload: new_cart
+        });
+
+    }
+}
