@@ -338,3 +338,43 @@ export const remove_item = item => async dispatch => {
 
     }
 }
+
+export const empty_cart = () => async dispatch => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorizarion': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        
+
+        try {
+            const res = await axios.delete(`${process.env.REACT_APP_API_URL}/api/cart/empty-cart`, config);
+
+            if(res.status === 200){
+                dispatch({
+                    type: EMPTY_CART_SUCCESS
+                });
+            } else {
+                dispatch({
+                    type: EMPTY_CART_FAIL
+                });
+            }
+
+        } catch(err) {
+            dispatch({
+                type: EMPTY_CART_FAIL
+            });
+        }
+
+    } else {
+        
+        dispatch({
+            type: EMPTY_CART
+        });
+
+    }
+}
