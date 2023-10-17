@@ -378,3 +378,46 @@ export const empty_cart = () => async dispatch => {
 
     }
 }
+
+export const synch_cart = () => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorizarion': `JWT ${localStorage.getItem('access')}`,
+        }
+    };
+
+    let cart_items = [];
+
+    if(localStorage.getItem('cart')){
+        let cart = JSON.parse(localStorage.getItem('cart'));
+
+        cart.map(cart_item => {
+            const item = {}
+            item.product_id = cart_item.product.id;
+            item.count = cart_item.count;
+            cart_items.push(item);
+        });
+    }
+    const body = JSON.stringify({ cart_items });
+
+    try {
+        const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/cart/synch`, body, config);
+
+        if(res.status === 201){
+            dispatch({
+                type: SYNCH_CART_SUCCESS
+            });
+        } else {
+            dispatch({
+                type: SYNCH_CART_FAIL
+            });
+        }           
+    }catch(err){
+        dispatch({
+            type: SYNCH_CART_FAIL
+        });
+    }
+
+}
