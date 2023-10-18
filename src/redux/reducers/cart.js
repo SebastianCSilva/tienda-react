@@ -45,6 +45,27 @@ export default function Cart(state = initialState, action){
                 ...state,
                 items: null
             };
+        case ADD_ITEM:
+            localStorage.setItem('cart', JSON.stringify(payload));
+            return {
+                ...state,
+                items: JSON.parse(localStorage.getItem('cart'))
+            };
+        case GET_ITEMS_SUCCESS:
+            return {
+                ...state,
+                items: payload.cart
+            };
+        case GET_ITEMS_FAIL:
+            return {
+                ...state,
+                items: null
+            };
+        case GET_ITEMS:
+            return {
+                ...state,
+                items: JSON.parse(localStorage.getItem('cart'))
+            };
         default:
             return state;
     }
