@@ -66,6 +66,69 @@ export default function Cart(state = initialState, action){
                 ...state,
                 items: JSON.parse(localStorage.getItem('cart'))
             };
+        case GET_TOTAL_SUCCESS:
+            return {
+                ...state,
+                amount: payload.total_cost,
+                compare_amount: payload.total_compare_cost
+            };
+        case GET_TOTAL_FAIL:
+            return {
+                ...state,
+                amount: 0.00,
+                compare_amount: 0.00
+            };
+        case GET_TOTAL:
+            return {
+                ...state,
+                amount: payload[0],
+                compare_amount: payload[1]
+            };
+        case GET_ITEM_TOTAL_SUCCESS:
+            return {
+                ...state,
+                total_items: payload.total_items
+            };
+        case GET_ITEM_TOTAL_FAIL:
+            return {
+                ...state,
+                total_items: 0
+            };
+        case GET_ITEM_TOTAL:
+            return {
+                ...state,
+                total_items: payload
+            };
+        case UPDATE_ITEM_SUCCESS:
+            return {
+                ...state,
+                items: payload.cart
+            };
+        case UPDATE_ITEM_FAIL:
+            return {
+                ...state
+            };
+        case UPDATE_ITEM:
+            localStorage.setItem('cart', JSON.stringify(payload));
+            return {
+                ...state,
+                items: JSON.parse(localStorage.getItem('cart'))
+            };
+        case REMOVE_ITEM_SUCCESS:
+            return {
+                ...state,
+                items: payload.cart
+            };
+        case REMOVE_ITEM_FAIL:
+            return {
+                ...state
+            };
+        case REMOVE_ITEM:
+            localStorage.setItem('cart', JSON.stringify(payload));
+            return {
+                ...state,
+                items: JSON.parse(localStorage.getItem('cart'))
+            };
         default:
             return state;
     }
