@@ -129,6 +129,29 @@ export default function Cart(state = initialState, action){
                 ...state,
                 items: JSON.parse(localStorage.getItem('cart'))
             };
+        case EMPTY_CART_SUCCESS:
+        case EMPTY_CART_FAIL:
+            return {
+                ...state,
+                items: null,
+                amount: 0.00,
+                compare_amount: 0.00,
+                total_items: 0
+            };
+        case EMPTY_CART:
+            localStorage.removeItem('cart');
+            return {
+                items: null,
+                amount: 0.00,
+                compare_amount: 0.00,
+                total_items: 0
+            };
+        case SYNCH_CART_SUCCESS:
+        case SYNCH_CART_FAIL:
+            localStorage.removeItem('cart');
+            return {
+                ...state,
+            };
         default:
             return state;
     }
