@@ -5,6 +5,7 @@ import {
     get_product,
     get_related_products
 } from "../../redux/actions/products";
+import Loader from "react-loader-spinner";
 import { 
   get_items,
   add_item,
@@ -30,12 +31,16 @@ const ProductDetail = ({
     get_item_total
 }) => {
 
+  const [loading, setLoading] = useState(false);
+
   const addToCart = async () => {
     if(product && product !== null && product !== undefined && product.quantity > 0){
+      setLoading(true);
       await add_item(product);
       await get_items();
       await get_total();
       await get_item_total();
+      setLoading(false);
     }
   }
 
@@ -135,12 +140,26 @@ const ProductDetail = ({
 
 
               <div className="mt-4 flex sm:flex-col1">
-                <button
+                {
+                  loading?
+                  <button
+                  className="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full"
+                  >
+                    <Loader
+                      type="Oval"
+                      color="#fff"
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                  :
+                  <button
                   onClick={addToCart}
                   className="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full"
-                >
-                  Agregar al Carrito
-                </button>
+                  >
+                    Agregar al Carrito
+                  </button>
+                }
 
                 <button
                   type="button"
