@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'
 import { NavLink, Link } from 'react-router-dom'
 import { Navigate } from 'react-router'
 import Alert from '../../components/alert'
@@ -208,7 +208,11 @@ function Navbar({
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                
+                <div classNames="flex items-center md:ml-12">
+                  <Link to="/cart ">
+                    <ShoppingCartIcon className="h-8 w-8 cursor-pointer text-gray-300 mr-4"/>
+                  </Link>
+                </div>
 
                 {/* Profile dropdown */}
                 {
@@ -236,6 +240,15 @@ function Navbar({
                   {item.name}
                 </Disclosure.Button>
               ))}
+
+
+              <div classNames="flex items-center md:ml-12">
+                  <Link to="/cart ">
+                    <ShoppingCartIcon className="h-8 w-8 cursor-pointer text-gray-300 mr-4"/>
+                  </Link>
+              </div>
+
+              
             </div>
           </Disclosure.Panel>
         </>
