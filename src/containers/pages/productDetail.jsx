@@ -5,58 +5,39 @@ import {
     get_product,
     get_related_products
 } from "../../redux/actions/products";
+import { 
+  get_items,
+  add_item,
+  get_total,
+  get_item_total
+} from "../../redux/actions/cart";
 import { useEffect, useState } from "react";
 
-import { Disclosure, RadioGroup, Tab } from '@headlessui/react'
-import { StarIcon } from '@heroicons/react/solid'
 import { HeartIcon, MinusSmIcon, PlusSmIcon } from '@heroicons/react/outline'
 import ImageGallery from "../../components/product/ImageGallery";
 
-const product = {
-    name: 'Zip Tote Basket',
-    price: '$140',
-    rating: 4,
-    images: [
-      {
-        id: 1,
-        name: 'Angled view',
-        src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
-        alt: 'Angled front view with bag zipped and handles upright.',
-      },
-      // More images...
-    ],
-    
-    description: `
-      <p>The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.</p>
-    `,
-    details: [
-      {
-        name: 'Features',
-        items: [
-          'Multiple strap configurations',
-          'Spacious interior with top zip',
-          'Leather handle and tabs',
-          'Interior dividers',
-          'Stainless strap loops',
-          'Double stitched construction',
-          'Water-resistant',
-        ],
-      },
-      // More sections...
-    ],
-  }
-  
-function classNames(...classes) {
-return classes.filter(Boolean).join(' ')
-}
+
 
 
 
 const ProductDetail = ({
     get_product,
     get_related_products,
-    product
+    product,
+    get_items,
+    add_item,
+    get_total,
+    get_item_total
 }) => {
+
+  const addToCart = async () => {
+    if(product && product !== null && product !== undefined && product.quantity > 0){
+      await add_item(product);
+      await get_items();
+      await get_total();
+      await get_item_total();
+    }
+  }
 
 
     const params = useParams()
@@ -94,7 +75,7 @@ const ProductDetail = ({
               />
             </div>
             
-            <form className="mt-6">
+            <div className="mt-6">
               {/* Colors */}
               <div>
                 <h3 className="text-sm text-gray-600">Color</h3>
@@ -135,12 +116,30 @@ const ProductDetail = ({
               </div>
               </div>
 
-              <div className="mt-10 flex sm:flex-col1">
+              <p className="mt-4">
+                {
+                  product &&
+                  product !== null &&
+                  product !== undefined &&
+                  product.quantity > 0 ? (
+                    <span className="text-green-500">
+                      In Stock
+                    </span>
+                  ) : (
+                    <span className="text-red-500">
+                      Out of Stock
+                    </span>
+                  )
+                }
+              </p>
+
+
+              <div className="mt-4 flex sm:flex-col1">
                 <button
-                  type="submit"
+                  onClick={addToCart}
                   className="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full"
                 >
-                  Add to bag
+                  Agregar al Carrito
                 </button>
 
                 <button
@@ -151,7 +150,7 @@ const ProductDetail = ({
                   <span className="sr-only">Add to favorites</span>
                 </button>
               </div>
-            </form>
+            </div>
 
             <section aria-labelledby="details-heading" className="mt-12">
               <h2 id="details-heading" className="sr-only">
@@ -174,5 +173,9 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     get_product,
-    get_related_products
+    get_related_products,
+    get_items,
+    add_item,
+    get_total,
+    get_item_total
 }) (ProductDetail)
