@@ -1,6 +1,7 @@
 import Layout from "../../hocs/Layout"
 import { useParams } from 'react-router'
 import { connect } from "react-redux"
+import { useNavigate } from "react-router";
 import { 
     get_product,
     get_related_products
@@ -19,8 +20,6 @@ import ImageGallery from "../../components/product/ImageGallery";
 
 
 
-
-
 const ProductDetail = ({
     get_product,
     get_related_products,
@@ -33,6 +32,8 @@ const ProductDetail = ({
 
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const addToCart = async () => {
     if(product && product !== null && product !== undefined && product.quantity > 0){
       setLoading(true);
@@ -41,6 +42,7 @@ const ProductDetail = ({
       await get_total();
       await get_item_total();
       setLoading(false);
+      navigate('/cart');
     }
   }
 
