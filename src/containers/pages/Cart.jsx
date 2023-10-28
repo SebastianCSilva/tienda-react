@@ -63,6 +63,31 @@ const Cart = ({
         )
     }
 
+    const checkoutButton = () => {
+        if(total_items < 1){
+            <Link
+                to='/shop'
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Busca items para comprar
+            </Link>
+        } else if (!isAuthenticated){
+            <Link
+                to='/login'
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Login
+            </Link>
+        } else {
+            <Link
+                to='/checkout'
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Busca items para comprar
+            </Link>
+        }
+    }
+
     return(
         <Layout>
             {showItems()}
