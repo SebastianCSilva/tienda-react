@@ -8,6 +8,7 @@ import {
     get_total,
     get_item_total
 } from "../../redux/actions/cart";
+import { setAlert } from "../../redux/actions/alert";
 import { useEffect, useState } from "react";
 import CartItem from "../../components/cart/CartItem";
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XIcon } from '@heroicons/react/solid'
@@ -25,7 +26,8 @@ const Cart = ({
     compare_amount,
     total_items,
     remove_item,
-    update_item
+    update_item,
+    setAlert
 }) => {
 
     const [render, setRender] = useState(false);
@@ -58,6 +60,7 @@ const Cart = ({
                                     remove_item={remove_item}
                                     render={render}
                                     setRender={setRender}
+                                    setAlert={setAlert}
                                 />
                             </div>
                         );
@@ -177,5 +180,6 @@ export default connect(mapStateToProps,{
     get_total,
     get_item_total,
     remove_item,
-    update_item
+    update_item,
+    setAlert
 }) (Cart)
