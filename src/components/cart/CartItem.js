@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { UploadIcon, XIcon, CheckIcon, ClockIcon } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 
 const CartItem = ({
     item,
@@ -98,28 +100,42 @@ const CartItem = ({
                                 <option>9</option>
                             </select>
                             <button type="submit" className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500">
-                            <span className="sr-only">Update</span>
-                                Update Amount
+                            <span className="mx-2">Update</span>
+                                
                             </button>
                         </form>
                     <div className="absolute top-0 right-0">
                         <button onClick={removeItemHandler} className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500">
                         <span className="sr-only">Remove</span>
-                        <XIcon className="h-5 w-5" aria-hidden="true" />
+                        <UploadIcon className="h-5 w-5" aria-hidden="true" />
                         </button>
                     </div>
                 </div>
             </div>
 
+
             <p className="mt-4 flex text-sm text-gray-700 space-x-2">
-                {product.inStock ? (
-                <CheckIcon className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
-                ) : (
-                <ClockIcon className="flex-shrink-0 h-5 w-5 text-gray-300" aria-hidden="true" />
+                {
+                    item.product &&
+                    item.product !== null &&
+                    item.product !== undefined &&
+                    item.product.quantity > 0
+                ? (
+                    <>
+                    <CheckIcon className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" /> 
+                    <span>In Stock</span>
+                    </>
+                ) 
+                : (
+                    <>
+                    <ClockIcon className="flex-shrink-0 h-5 w-5 text-gray-300" aria-hidden="true" />
+                    <span>Out of Stock</span>
+                    </>
                 )}
 
-                <span>{product.inStock ? 'In stock' : `Ships in ${product.leadTime}`}</span>
             </p>
+
+
             </div>
         </li>
     )
