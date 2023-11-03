@@ -72,26 +72,44 @@ const Cart = ({
 
     const checkoutButton = () => {
         if(total_items < 1){
-            <Link
-                to='/shop'
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            return(
+                <>
+                <Link
+                to='/shop'>
+                <Button
+                className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
-                    Busca items para comprar
-            </Link>
+                    Buscar items
+                    </Button>
+                </Link>
+                </>
+            )
         } else if (!isAuthenticated){
-            <Link
-                to='/login'
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            return(
+                <>
+                <Link
+                to='/login'>
+                <Button
+                className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
                     Login
-            </Link>
+                    </Button>
+                </Link>
+                </>
+            )
         } else {
-            <Link
-                to='/checkout'
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            return(
+                <>
+                <Link
+                to='/checkout'>
+                <Button
+                className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
-                    Busca items para comprar
-            </Link>
+                    Checkout
+                    </Button>
+                </Link>
+                </>
+            )
         }
     }
 
@@ -123,8 +141,10 @@ const Cart = ({
                         <dl className="mt-6 space-y-4">
                         <div className="flex items-center justify-between">
                             <dt className="text-sm text-gray-600">Subtotal</dt>
-                            <dd className="text-sm font-medium text-gray-900">$99.00</dd>
+                            <dd className="text-sm font-medium text-gray-900">${compare_amount.toFixed(2)}</dd>
                         </div>
+
+                        {/* 
                         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                             <dt className="flex items-center text-sm text-gray-600">
                             <span>Shipping estimate</span>
@@ -145,19 +165,15 @@ const Cart = ({
                             </dt>
                             <dd className="text-sm font-medium text-gray-900">$8.32</dd>
                         </div>
+                        */}
                         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                             <dt className="text-base font-medium text-gray-900">Order total</dt>
-                            <dd className="text-base font-medium text-gray-900">$112.32</dd>
+                            <dd className="text-base font-medium text-gray-900">${amount.toFixed(2)}</dd>
                         </div>
                         </dl>
 
                         <div className="mt-6">
-                        <button
-                            type="submit"
-                            className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                        >
-                            Checkout
-                        </button>
+                            {checkoutButton()}
                         </div>
                     </section>
                     </form>
