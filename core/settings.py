@@ -53,7 +53,8 @@ PROJECT_APPS=[
 ECOMMERCE_APPS=[
     'apps.category',
     'apps.product',
-    'apps.cart'  
+    'apps.cart',
+    'apps.shipping'
 ]
 THIRD_PARTY_APPS=[
     'corsheaders',
