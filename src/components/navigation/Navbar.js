@@ -30,7 +30,8 @@ function Navbar({
   logout,
   get_categories,
   categories,
-  get_search_products
+  get_search_products,
+  total_items
 }) {
 
   const [redirect, setRedirect] = useState(false);
@@ -211,6 +212,7 @@ function Navbar({
                 <div classNames="flex items-center md:ml-12">
                   <Link to="/cart ">
                     <ShoppingCartIcon className="h-8 w-8 cursor-pointer text-gray-300 mr-4"/>
+                    <span className='text-xs absolute top-1 mt-3 ml-4 bg-red-500 text-white font-semibold rounded-full px-2 text-center'>{total_items}</span>
                   </Link>
                 </div>
 
@@ -262,7 +264,8 @@ function Navbar({
 const mapStateToProps = state => ({
   isAuthenticated: state.Auth.isAuthenticated,
   user: state.Auth.user,
-  categories: state.Categories.categories
+  categories: state.Categories.categories,
+  total_items: state.Cart.total_items
 })
 
 export default connect(mapStateToProps, {
