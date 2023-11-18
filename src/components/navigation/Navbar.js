@@ -66,8 +66,10 @@ function Navbar({
     setRedirect(true);
   }
 
-  if (redirect)
+  if (redirect){
+    window.location.reload(false)
     return <Navigate to='/' />;
+  }
 
   const authLinks = (
     <Menu as="div" className="relative ml-3">

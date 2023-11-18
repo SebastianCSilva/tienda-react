@@ -39,7 +39,7 @@ const CartItem = ({
             } catch(err){
 
             }
-        }
+        };
 
         fetchData();
     }
