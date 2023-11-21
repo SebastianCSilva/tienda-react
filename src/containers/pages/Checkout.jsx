@@ -6,51 +6,52 @@ import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XIcon } from '@heroicons/
 import CartItem from "../../components/cart/CartItem";
 import { update_item, remove_item } from "../../redux/actions/cart";
 import { setAlert  } from "../../redux/actions/alert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { get_shipping_options } from '../../redux/actions/shipping'
 
-const products = [
-    {
-      id: 1,
-      name: 'Basic Tee',
-      href: '#',
-      price: '$32.00',
-      color: 'Sienna',
-      inStock: true,
-      size: 'Large',
-      imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg',
-      imageAlt: "Front of men's Basic Tee in sienna.",
-    },
-    {
-      id: 2,
-      name: 'Basic Tee',
-      href: '#',
-      price: '$32.00',
-      color: 'Black',
-      inStock: false,
-      leadTime: '3–4 weeks',
-      size: 'Large',
-      imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
-      imageAlt: "Front of men's Basic Tee in black.",
-    },
-    {
-      id: 3,
-      name: 'Nomad Tumbler',
-      href: '#',
-      price: '$35.00',
-      color: 'White',
-      inStock: true,
-      imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg',
-      imageAlt: 'Insulated bottle with white base and black snap lid.',
-    },
-]
 
 const Checkout = ({
     isAuthenticated, 
     items, 
     update_item, 
     remove_item,
-    setAlert
+    setAlert,
+    get_shipping_options, 
+    shipping
     }) => {
+
+    const [fromData, setFormData] = useState({
+        full_name: '',
+        address_line_1: '',
+        address_line_2: '',
+        city: '',
+        state_province_region: '',
+        postal_zip_code: '',
+        country_region: 'Chile',
+        telephone_number: '',
+        coupon_name: '',
+        shipping_id: 0,
+    });
+
+    const {
+        full_name,
+        address_line_1,
+        address_line_2,
+        city,
+        state_province_region,
+        postal_zip_code,
+        country_region,
+        telephone_number,
+        coupon_name,
+        shipping_id,
+    } = formData;
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    useEffect(() => {
+        window.scrollTo(0,0)
+        get_shipping_options()
+    }, [])
 
     const [render, setRender] = useState(false);
     
@@ -88,12 +89,37 @@ const Checkout = ({
         )
     }
 
+    const renderShipping = () => {
+        if(shipping && shipping !== null && shipping !== undefined){
+            return(
+                <div className="mb-5">
+                    {
+                        shipping.map((shipping_option, index) => (
+                            <div key={index}>
+                                <input
+                                    onChange={e => onChange(e)}
+                                    value={shipping_option.id}
+                                    name='shipping_id'
+                                    type='radio'
+                                    required
+                                />
+                                <label className="ml-4">
+                                    {shipping_option.name} - ${shipping_option.price} ({shipping_option.time_to_delivery})
+                                </label>
+                            </div>
+                        ))
+                    }
+                </div>
+            );
+        }
+    };
+
     return(
         <Layout>
             <div className="bg-white">
                 <div className="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                     <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Checkout </h1>
-                    <form className="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
+                    <div className="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
                     <section aria-labelledby="cart-heading" className="lg:col-span-7">
                         <h2 id="cart-heading" className="sr-only">
                         Items in your shopping cart
@@ -115,8 +141,7 @@ const Checkout = ({
 
                         <dl className="mt-6 space-y-4">
                         <div className="flex items-center justify-between">
-                            <dt className="text-sm text-gray-600">Subtotal</dt>
-                            <dd className="text-sm font-medium text-gray-900">$99.00</dd>
+                            Shipping inputs
                         </div>
                         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                             <dt className="flex items-center text-sm text-gray-600">
@@ -153,7 +178,7 @@ const Checkout = ({
                         </button>
                         </div>
                     </section>
-                    </form>
+                    </div>
                 </div>
                 </div>
         </Layout>
@@ -162,10 +187,12 @@ const Checkout = ({
 const mapStateToProps = state => ({
     isAuthenticated: state.Auth.isAuthenticated,
     items: state.Cart.items,
+    shipping: state.Shipping.shipping
 })
 
 export default connect(mapStateToProps,{
     update_item,
     remove_item,
-    setAlert
+    setAlert,
+    get_shipping_options
 }) (Checkout)
