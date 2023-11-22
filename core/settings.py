@@ -54,7 +54,8 @@ ECOMMERCE_APPS=[
     'apps.category',
     'apps.product',
     'apps.cart',
-    'apps.shipping'
+    'apps.shipping',
+    'apps.orders'
 ]
 THIRD_PARTY_APPS=[
     'corsheaders',
