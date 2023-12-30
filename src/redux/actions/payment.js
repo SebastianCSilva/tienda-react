@@ -70,3 +70,68 @@ export const get_client_token = () => async dispatch => {
         });
     }
 }
+
+export const process_payment = (
+    nonce,
+    shipping_id,
+    full_name,
+    address_line_1,
+    address_line_2,
+    city,
+    state_province_region,
+    postal_zip_code,
+    country_region,
+    telephone_number
+) => async dispatch => {
+    const config = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `JWT ${localStorage.getItem('access')}`
+        }
+    };
+
+    const body = JSON.stringify({
+        nonce,
+        shipping_id,
+        coupon_name,
+        full_name,
+        address_line_1,
+        address_line_2,
+        city,
+        state_province_region,
+        postal_zip_code,
+        country_region,
+        telephone_number
+    });
+
+    dispatch({
+        type: SET_PAYMENT_LOADING
+    });
+
+    try {
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/payment/make-payment`, body, config);
+        if (res.status === 200 && res.data.success) {
+            dispatch({
+                type: PAYMENT_SUCCESS
+            });
+            dispatch(setAlert(res.data.success, 'green'));
+            dispatch(get_item_total());
+        } else {
+            dispatch({
+                type: PAYMENT_FAIL
+            });
+            dispatch(setAlert(res.data.error, 'red'));
+        }
+    } catch(err) {
+        dispatch({
+            type: PAYMENT_FAIL
+        });
+        dispatch(setAlert('Error processing payment', 'red'));
+    }
+
+    dispatch({
+        type: REMOVE_PAYMENT_LOADING
+    });
+    window.scrollTo(0, 0);
+}
