@@ -41,3 +41,32 @@ export const get_payment_total = (shipping_id) => async dispatch => {
         });
     }
 }
+
+export const get_client_token = () => async dispatch => {
+    const config = {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `JWT ${localStorage.getItem('access')}`
+        }
+
+    };
+
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/payment/get-token`, config);
+
+        if (res.status === 200){
+            dispatch({
+                type: LOAD_BT_TOKEN_SUCCESS,
+                payload: res.data
+            });
+        } else {
+            dispatch({
+                type: LOAD_BT_TOKEN_FAIL
+            });
+        }
+    } catch(err) {
+        dispatch({
+            type: LOAD_BT_TOKEN_FAIL
+        });
+    }
+}
