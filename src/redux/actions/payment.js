@@ -94,7 +94,6 @@ export const process_payment = (
     const body = JSON.stringify({
         nonce,
         shipping_id,
-        coupon_name,
         full_name,
         address_line_1,
         address_line_2,
@@ -111,6 +110,7 @@ export const process_payment = (
 
     try {
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/payment/make-payment`, body, config);
+
         if (res.status === 200 && res.data.success) {
             dispatch({
                 type: PAYMENT_SUCCESS
@@ -135,3 +135,9 @@ export const process_payment = (
     });
     window.scrollTo(0, 0);
 }
+
+export const reset = () => dispatch => {
+    dispatch({
+        type: RESET_PAYMENT_INFO
+    });
+};
