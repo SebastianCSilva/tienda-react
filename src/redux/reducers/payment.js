@@ -44,6 +44,16 @@ export default function Payment(state = initialState, action) {
                 estimated_tax: 0.00,
                 shipping_cost: 0.00
             }
+        case LOAD_BT_TOKEN_SUCCESS:
+            return {
+                ...state,
+                clientToken: payload.braintree_token
+            }
+        case LOAD_BT_TOKEN_FAIL:
+            return {
+                ...state,
+                clientToken: null
+            }    
         default:
             return state;
     }
