@@ -64,6 +64,22 @@ export default function Payment(state = initialState, action) {
                 ...state,
                 made_payment: false
             }
+        case SET_PAYMENT_LOADING:
+            return {
+                ...state,
+                loading: true
+            }
+        case REMOVE_PAYMENT_LOADING:
+            return {
+                ...state,
+                loading: false
+            }
+        case RESET_PAYMENT_INFO:
+            return {
+                ...state,
+                made_payment: false,
+                clientToken: null
+            }
         default:
             return state;
     }
