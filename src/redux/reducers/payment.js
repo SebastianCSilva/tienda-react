@@ -53,7 +53,17 @@ export default function Payment(state = initialState, action) {
             return {
                 ...state,
                 clientToken: null
-            }    
+            }
+        case PAYMENT_SUCCESS:
+            return {
+                ...state,
+                made_payment: true
+            }
+        case PAYMENT_FAIL:
+            return {
+                ...state,
+                made_payment: false
+            }
         default:
             return state;
     }
