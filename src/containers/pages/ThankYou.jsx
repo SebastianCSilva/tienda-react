@@ -1,6 +1,15 @@
 import Layout from '../../hocs/Layout'
+import { connect } from 'react-redux'
+import { Navigate } from 'react-router-dom'
 
-const ThankYou = () => {
+
+const ThankYou = ({
+    isAuthenticated
+}) => {
+
+    if(!isAuthenticated)
+        return <Navigate to='/' />;
+
     return(
         <Layout>
             <div className="bg-white">
@@ -18,5 +27,8 @@ const ThankYou = () => {
         </Layout>
     )
 }
+const mapStateToProps = state => ({
+    isAuthenticated: state.Auth.isAuthenticated
+})
 
-export default ThankYou
+export default connect(mapStateToProps,{}) (ThankYou)
