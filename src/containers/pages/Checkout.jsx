@@ -2,13 +2,27 @@ import Layout from "../../hocs/Layout";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 
-import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XIcon } from '@heroicons/react/solid'
+import { QuestionMarkCircleIcon } from '@heroicons/react/solid'
 import CartItem from "../../components/cart/CartItem";
 import { update_item, remove_item } from "../../redux/actions/cart";
 import { setAlert  } from "../../redux/actions/alert";
 import { useEffect, useState } from "react";
 import { get_shipping_options } from '../../redux/actions/shipping'
 
+import {
+    refresh
+} from '../../redux/actions/auth';
+
+import { 
+    get_payment_total,
+    get_client_token,
+    process_payment
+} from "../../redux/actions/payment";
+
+import DropIn from "braintree-web-drop-in-react";
+import Loader from "react-loader-spinner";
+import { countries } from '../../helpers/fixedCountries'
+import ShippingForm from "../../components/checkout/ShippingForm";
 
 const Checkout = ({
     isAuthenticated, 
@@ -17,7 +31,22 @@ const Checkout = ({
     remove_item,
     setAlert,
     get_shipping_options, 
-    shipping
+    shipping,
+    refresh,
+    get_payment_total,
+    get_client_token,
+    process_payment,
+    user,
+    total_items,
+    clientToken,
+    made_payment,
+    loading,
+    original_price,
+    total_after_coupon,
+    total_amount,
+    total_compare_amount,
+    estimated_tax,
+    shipping_cost
     }) => {
 
     const [fromData, setFormData] = useState({
@@ -186,13 +215,28 @@ const Checkout = ({
 }
 const mapStateToProps = state => ({
     isAuthenticated: state.Auth.isAuthenticated,
+    user: state.Auth.user,
     items: state.Cart.items,
-    shipping: state.Shipping.shipping
+    total_items: state.Cart.total_items,
+    shipping: state.Shipping.shipping,
+    clientToken: state.Payment.clientToken,
+    made_payment: state.Payment.made_payment,
+    loading: state.Payment.loading,
+    original_price: state.Payment.original_price,
+    total_after_coupon: state.Payment.total_after_coupon,
+    total_amount: state.Payment.total_amount,
+    total_compare_amount: state.Payment.total_compare_amount,
+    estimated_tax: state.Payment.estimated_tax,
+    shipping_cost: state.Payment.shipping_cost
 })
 
 export default connect(mapStateToProps,{
     update_item,
     remove_item,
     setAlert,
-    get_shipping_options
+    get_shipping_options,
+    refresh,
+    get_payment_total,
+    get_client_token,
+    process_payment
 }) (Checkout)
