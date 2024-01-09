@@ -86,6 +86,10 @@ const Checkout = ({
         get_client_token();
     }, [user]);
 
+    useEffect(() => {
+        get_payment_total(shipping_id, '');
+    }, [shipping_id]);
+
     const [render, setRender] = useState(false);
     
     if(!isAuthenticated)
