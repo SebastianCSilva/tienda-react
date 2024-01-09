@@ -188,7 +188,7 @@ const Checkout = ({
                                 <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                             </a>
                             </dt>
-                            <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+                            <dd className="text-sm font-medium text-gray-900">{shipping && shipping_id !== 0 ? <>${shipping_cost}</>:<div className="text-red-500">(Please select shipping option)</div>}</dd>
                         </div>
                         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                             <dt className="flex text-sm text-gray-600">
@@ -198,11 +198,19 @@ const Checkout = ({
                                 <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                             </a>
                             </dt>
-                            <dd className="text-sm font-medium text-gray-900">$8.32</dd>
+                            <dd className="text-sm font-medium text-gray-900">${estimated_tax}</dd>
                         </div>
+
+                        <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+                            <dt className="flex text-sm text-gray-600">
+                                <span>Subtotal</span>
+                            </dt>
+                            <dd className="text-sm font-medium text-gray-900">${total_compare_amount}</dd>
+                        </div>
+
                         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                             <dt className="text-base font-medium text-gray-900">Order total</dt>
-                            <dd className="text-base font-medium text-gray-900">$112.32</dd>
+                            <dd className="text-base font-medium text-gray-900">${total_amount}</dd>
                         </div>
                         </dl>
 
