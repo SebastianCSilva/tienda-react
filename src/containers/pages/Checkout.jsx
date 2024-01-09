@@ -82,6 +82,10 @@ const Checkout = ({
         get_shipping_options()
     }, [])
 
+    useEffect(() => {
+        get_client_token();
+    }, [user]);
+
     const [render, setRender] = useState(false);
     
     if(!isAuthenticated)
