@@ -70,16 +70,98 @@ const ShippingForm = (
                 </div>
                 </dl>
 
-                
+                <form onSubmit={e => buy(e)}>
+                    <div className='px-4 py-5 mt-4 sm:px-6'>
+                        <h3 className='text-lg leading-6 font-medium text-gray-900'>Shipping Address:</h3>
+                    </div>
 
-                <div className="mt-6">
-                <button
-                    type="submit"
-                    className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                >
-                    Checkout
-                </button>
-                </div>
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            Full name
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                        <div className="max-w-lg flex rounded-md shadow-sm">
+                            
+                            <input
+                            type="text"
+                            name="full_name"
+                            placeholder={`${user.first_name} ${user.last_name}`}
+                            onChange={e => onChange(e)}
+                            value={full_name}
+                            required
+                            className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                            />
+                        </div>
+                        </div>
+                    </div>
+
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            Address Line 1*
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                
+                                <input
+                                    type="text"
+                                    name="address_line_1"
+                                    // placeholder={`${profile.address_line_1}`}
+                                    onChange={e => onChange(e)}
+                                    value={address_line_1}
+                                    required
+                                    className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            Address Line 2*
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                
+                                <input
+                                    type="text"
+                                    name="address_line_2"
+                                    // placeholder={`${profile.address_line_2}`}
+                                    onChange={e => onChange(e)}
+                                    value={address_line_2}
+                                    required
+                                    className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                        <label htmlFor="country" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                        Country
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                        <select
+                            id="country"
+                            name="country"
+                            autoComplete="country-name"
+                            className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                        >
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>Mexico</option>
+                        </select>
+                        </div>
+                    </div>
+
+
+                    <div className="mt-6">
+                    <button
+                        type="submit"
+                        className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                    >
+                        Checkout
+                    </button>
+                    </div>
+                </form>
             </section>
         </div>
     )
