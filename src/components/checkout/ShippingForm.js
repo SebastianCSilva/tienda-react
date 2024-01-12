@@ -116,7 +116,7 @@ const ShippingForm = (
                     </div>
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                            Address Line 2*
+                            Address Line 2
                         </label>
                         <div className="mt-1 sm:mt-0 sm:col-span-2">
                             <div className="max-w-lg flex rounded-md shadow-sm">
@@ -127,28 +127,112 @@ const ShippingForm = (
                                     // placeholder={`${profile.address_line_2}`}
                                     onChange={e => onChange(e)}
                                     value={address_line_2}
-                                    required
                                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
                                 />
                             </div>
                         </div>
                     </div>
 
+                    
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            City*
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                
+                                <input
+                                    type="text"
+                                    name="city"
+                                    // placeholder={`${profile.city}`}
+                                    onChange={e => onChange(e)}
+                                    value={city}
+                                    required
+                                    className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            State/Province/Region*
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                
+                                <input
+                                    type="text"
+                                    name="state_province_region"
+                                    // placeholder={`${profile.state_province_region}`}
+                                    onChange={e => onChange(e)}
+                                    value={state_province_region}
+                                    required
+                                    className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            Postal Code*
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                
+                                <input
+                                    type="text"
+                                    name="postal_zip_code"
+                                    // placeholder={`${profile.zipcode}`}
+                                    onChange={e => onChange(e)}
+                                    value={postal_zip_code}
+                                    required
+                                    className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                         <label htmlFor="country" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                        Country
+                        Country*
                         </label>
                         <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <select
-                            id="country"
-                            name="country"
-                            autoComplete="country-name"
+                            id="country_region"
+                            name="country_region"
+                            onChange={e => onChange(e)}
                             className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                         >
-                            <option>United States</option>
-                            <option>Canada</option>
-                            <option>Mexico</option>
+                            {/* <option value={`${profile.country_region}`}>{profile.country_region}</option> */}
+                            {
+                                countries &&
+                                countries !== null &&
+                                countries !== undefined &&
+                                countries.map((country, index) => (
+                                    <option key={index} value={country.name}>
+                                        {country.name}
+                                    </option>
+                                ))
+                            }   
                         </select>
+                        </div>
+                    </div>
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                        <label htmlFor="telephone_number" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                            Phone Number*
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                
+                                <input
+                                    type="tel"
+                                    name="telephone_number"
+                                    // placeholder={`${profile.telephone_number}`}
+                                    onChange={e => onChange(e)}
+                                    value={telephone_number}
+                                    required
+                                    className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+                                />
+                            </div>
                         </div>
                     </div>
 
