@@ -150,6 +150,47 @@ const Checkout = ({
         }
     };
 
+    const renderPaymentInfo = () => {
+        if (!clientToken) {
+
+        } else {
+            return(
+                <>
+                    <DropIn 
+                        options={{
+                            authorization: clientToken,
+                            paypal: {
+                                flow: 'vault'
+                            }
+                        }}
+                        onInstance={instance => (data.instance = instance)}
+                    />
+                    <div className="mt-6">
+                        {loading?
+                        <button
+                            className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                        >
+                            <Loader
+                                type='Oval'
+                                color='#fff'
+                                height={20}
+                                width={20}
+                            />
+                        </button>
+                        :
+                        <button
+                            type="submit"
+                            className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                        >
+                            Place Order
+                        </button>
+                        }
+                    </div>
+                </>
+            )
+        }
+    }
+
     return(
         <Layout>
             <div className="bg-white">
