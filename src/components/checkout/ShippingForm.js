@@ -18,7 +18,8 @@ const ShippingForm = (
     estimated_tax,
     shipping_cost,
     shipping_id,
-    shipping
+    shipping,
+    renderPaymentInfo
 ) => {
     return(
         <div>
@@ -216,7 +217,7 @@ const ShippingForm = (
                         </select>
                         </div>
                     </div>
-                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
+                    <div className="sm:grid sm:grid-cols-3 mb-4 sm:gap-4 sm:items-start sm:border-t  sm:pt-5">
                         <label htmlFor="telephone_number" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                             Phone Number*
                         </label>
@@ -236,7 +237,9 @@ const ShippingForm = (
                         </div>
                     </div>
 
-
+                    {
+                        renderPaymentInfo()
+                    }
                     
                 </form>
             </section>
