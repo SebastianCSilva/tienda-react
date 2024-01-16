@@ -1,7 +1,7 @@
 import Layout from "../../hocs/Layout";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import CartItem from "../../components/cart/CartItem";
 import { update_item, remove_item } from "../../redux/actions/cart";
 import { setAlert  } from "../../redux/actions/alert";
@@ -152,7 +152,25 @@ const Checkout = ({
 
     const renderPaymentInfo = () => {
         if (!clientToken) {
-
+            if (!isAuthenticated){
+                <Link
+                    to="/login"
+                    className="w-full bg-gray-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-gray-500"
+                >
+                    Login
+                </Link>
+            } else {
+                <button
+                    className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                >
+                    <Loader
+                        type='Oval'
+                        color='#fff'
+                        height={20}
+                        width={20}
+                    />
+                </button>
+            }
         } else {
             return(
                 <>
@@ -190,6 +208,9 @@ const Checkout = ({
             )
         }
     }
+
+    if (made_payment)
+        return <Navigate to='/thankyou' />;
 
     return(
         <Layout>
